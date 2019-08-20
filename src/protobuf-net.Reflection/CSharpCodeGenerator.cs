@@ -377,6 +377,14 @@ namespace ProtoBuf.Reflection
                         case "inf": defaultValue = "float.PositiveInfinity"; break;
                         case "-inf": defaultValue = "float.NegativeInfinity"; break;
                         case "nan": defaultValue = "float.NaN"; break;
+                        default:
+                            if (!string.IsNullOrEmpty(defaultValue) &&
+                                float.TryParse(defaultValue, out var f) &&
+                                !defaultValue.EndsWith("f"))
+                            {
+                                defaultValue += "f";
+                            }
+                            break;
                     }
                 }
                 else if (obj.type == FieldDescriptorProto.Type.TypeEnum)
